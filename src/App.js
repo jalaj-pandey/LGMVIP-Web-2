@@ -1,23 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
+import Navbar from './components/Navbar';
+import Users from './components/Users';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState } from 'react';
+import Spinner from './components/Spinner';
 
 function App() {
+  const [isShown, setIsShown] = useState(false);
+  const delay = ms => new Promise(
+    resolve => setTimeout(resolve, ms)
+  );
+    
+  const handleClick = async event => {
+        // toggle shown state
+        await delay(5000);
+        setIsShown(false);
+      }
+
+ 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <Router>
+    <Navbar/>
+    <Routes>
+    <Route exact path="/Users" element = {<Users onClick={handleClick}/>}/>
+    </Routes>
+    {!isShown ? <Spinner/> : <Users/> }
+    </Router>
     </div>
   );
 }
